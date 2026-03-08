@@ -76,7 +76,10 @@
 
                             {{-- Judul --}}
                             <td class="px-5 py-4 font-semibold break-words whitespace-normal">
-                                {{ $jadwal->title }}
+                                <div class="font-bold text-gray-900">{{ $jadwal->title }}</div>
+                                @if($jadwal->division)
+                                    <span class="inline-block mt-1 px-2 py-0.5 text-[10px] bg-green-100 text-green-700 rounded font-bold uppercase">{{ $jadwal->division }}</span>
+                                @endif
                             </td>
 
                             {{-- Tanggal --}}

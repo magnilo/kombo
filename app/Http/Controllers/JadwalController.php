@@ -32,6 +32,7 @@ class JadwalController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'division' => 'nullable|string|max:255',
             'date' => 'required|date',
             'time' => 'required',
             'location' => 'required',
@@ -46,6 +47,7 @@ class JadwalController extends Controller
 
         Jadwal::create([
             'title' => $request->title,
+            'division' => $request->division,
             'date' => $request->date,
             'time' => $request->time,
             'location' => $request->location,
@@ -71,6 +73,7 @@ class JadwalController extends Controller
     {
         $request->validate([
             'title' => 'required',
+            'division' => 'nullable|string|max:255',
             'date' => 'required|date',
             'time' => 'required',
             'location' => 'required',
@@ -84,6 +87,7 @@ class JadwalController extends Controller
         }
 
         $jadwal->title = $request->title;
+        $jadwal->division = $request->division;
         $jadwal->date = $request->date;
         $jadwal->time = $request->time;
         $jadwal->location = $request->location;

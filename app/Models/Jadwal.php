@@ -11,10 +11,15 @@ class Jadwal extends Model
 
     protected $fillable = [
         'title',
+        'division',
         'date',
         'time',
         'location',
         'image',
         'description',
+    ];
+
+    protected $casts = [
+        'date' => 'date',
     ];
 }

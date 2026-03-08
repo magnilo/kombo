@@ -5,11 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Berita;
 use App\Models\Jadwal;
+use App\Models\Leader;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        return view('dashboard');
+        $countBerita = Berita::count();
+        $countJadwal = Jadwal::count();
+        $countLeader = Leader::count();
+        $countAlumni = \App\Models\AlumniMember::count();
+        
+        $recentBeritas = Berita::latest()->take(5)->get();
+        $recentJadwals = Jadwal::latest()->take(5)->get();
+
+        return view('dashboard', compact('countBerita', 'countJadwal', 'countLeader', 'countAlumni', 'recentBeritas', 'recentJadwals'));
     }
 }

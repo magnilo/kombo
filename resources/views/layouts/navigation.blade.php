@@ -21,6 +21,15 @@
                     <x-nav-link :href="route('jadwal.index')" :active="request()->routeIs('jadwal.*')">
                         {{ __('Jadwal') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('organization.edit')" :active="request()->routeIs('organization.*')">
+                        {{ __('Org Profil') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('leaders.index')" :active="request()->routeIs('leaders.*')">
+                        {{ __('Struktur') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('faqs.index')" :active="request()->routeIs('faqs.*')">
+                        {{ __('FAQ') }}
+                    </x-nav-link>
                 </div>
             </div>
 
