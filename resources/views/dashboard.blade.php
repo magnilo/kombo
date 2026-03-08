@@ -45,42 +45,60 @@
                 <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total Alumni</div>
                 <div class="text-2xl font-extrabold text-slate-800">{{ $countAlumni }} Orang</div>
             </div>
+            <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm ring-4 ring-blue-500/5">
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4">✨</div>
+                <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Calon Anggota</div>
+                <div class="text-2xl font-extrabold text-slate-800">{{ $countRegistration }} Daftar</div>
+            </div>
         </div>
 
-        <!-- Quick Access Table -->
-        <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
-            <div class="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
-                <h3 class="font-bold text-lg text-slate-800">Aktivitas Terkini</h3>
-                <a href="{{ route('berita.index') }}" class="text-blue-600 text-sm font-bold hover:underline">Lihat Semua Berita</a>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Recent News -->
+            <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+                <div class="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
+                    <h3 class="font-bold text-lg text-slate-800">Berita Terbaru</h3>
+                    <a href="{{ route('berita.index') }}" class="text-blue-600 text-sm font-bold hover:underline">Lihat Semua</a>
+                </div>
+                <div class="p-4 overflow-x-auto">
+                    <table class="w-full text-left">
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($recentBeritas as $berita)
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="font-bold text-slate-700 text-sm">{{ $berita->title }}</div>
+                                    <div class="text-[10px] text-slate-400 uppercase font-bold tracking-widest">{{ $berita->created_at->diffForHumans() }}</div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr><td class="px-6 py-10 text-center text-slate-400 italic">Kosong</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="p-4 overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="text-[10px] uppercase tracking-widest text-slate-400 font-bold border-b border-slate-50">
-                            <th class="px-6 py-4">Informasi</th>
-                            <th class="px-6 py-4">Kategori</th>
-                            <th class="px-6 py-4">Waktu</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-50">
-                        @forelse($recentBeritas as $berita)
-                        <tr class="hover:bg-slate-50/50 transition">
-                            <td class="px-6 py-4">
-                                <div class="font-bold text-slate-700 text-sm">{{ $berita->title }}</div>
-                                <div class="text-xs text-slate-400">Postingan berita terbaru organisasi.</div>
-                            </td>
-                            <td class="px-6 py-4">
-                                <span class="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-[10px] font-bold uppercase">Berita</span>
-                            </td>
-                            <td class="px-6 py-4 text-xs font-medium text-slate-500">{{ $berita->created_at->diffForHumans() }}</td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="3" class="px-6 py-10 text-center text-slate-400 font-medium italic">Belum ada aktivitas terbaru...</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+
+            <!-- Recent Registrations -->
+            <div class="bg-white rounded-[32px] border border-slate-100 shadow-sm overflow-hidden">
+                <div class="p-8 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
+                    <h3 class="font-bold text-lg text-slate-800">Pendaftar Baru</h3>
+                    <a href="{{ route('registrations.index') }}" class="text-blue-600 text-sm font-bold hover:underline">Lihat Semua</a>
+                </div>
+                <div class="p-4 overflow-x-auto">
+                    <table class="w-full text-left">
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($recentRegistrations as $reg)
+                            <tr class="hover:bg-slate-50/50 transition">
+                                <td class="px-6 py-4">
+                                    <div class="font-bold text-slate-700 text-sm">{{ $reg->name }}</div>
+                                    <div class="text-[10px] text-blue-500 uppercase font-bold tracking-widest">{{ $reg->division->name }} • {{ $reg->campus }}</div>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr><td class="px-6 py-10 text-center text-slate-400 italic">Belum ada pendaftar baru</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

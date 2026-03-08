@@ -163,7 +163,9 @@
         <!-- Desktop Nav -->
         <nav class="nav-links">
             <a href="{{ route('home') }}" class="nav-pill {{ Request::is('/') ? 'active' : '' }}">Beranda</a>
-            <a href="{{ route('pages.structure') }}" class="nav-pill {{ Request::is('struktur-organisasi') ? 'active' : '' }}">Divisi & Pengurus</a>
+            <a href="{{ route('registration.create') }}" class="nav-pill {{ Request::is('pendaftaran') ? 'active' : '' }}">Pendaftaran</a>
+            <a href="{{ route('pages.divisions') }}" class="nav-pill {{ Request::is('divisi') ? 'active' : '' }}">Kenali Divisi</a>
+            <a href="{{ route('pages.structure') }}" class="nav-pill {{ Request::is('struktur-organisasi') ? 'active' : '' }}">Pengurus</a>
             <a href="{{ route('pages.schedule') }}" class="nav-pill {{ Request::is('jadwal-kegiatan') ? 'active' : '' }}">Proker</a>
             <a href="{{ route('pages.news') }}" class="nav-pill {{ Request::is('berita-kegiatan') ? 'active' : '' }}">News</a>
             <a href="{{ route('pages.alumni') }}" class="nav-pill {{ Request::is('alumni-kombo') ? 'active' : '' }}">Alumni</a>
@@ -188,7 +190,9 @@
         <div class="mobile-menu" x-show="mobileMenuOpen" x-transition.opacity @click.away="mobileMenuOpen = false" x-cloak>
             <div class="mobile-menu-content">
                 <a href="{{ route('home') }}" class="mobile-link {{ Request::is('/') ? 'active' : '' }}">Beranda</a>
-                <a href="{{ route('pages.structure') }}" class="mobile-link {{ Request::is('struktur-organisasi') ? 'active' : '' }}">Divisi & Pengurus</a>
+                <a href="{{ route('registration.create') }}" class="mobile-link {{ Request::is('pendaftaran') ? 'active' : '' }}">Pendaftaran</a>
+                <a href="{{ route('pages.divisions') }}" class="mobile-link {{ Request::is('divisi') ? 'active' : '' }}">Kenali Divisi</a>
+                <a href="{{ route('pages.structure') }}" class="mobile-link {{ Request::is('struktur-organisasi') ? 'active' : '' }}">Pengurus</a>
                 <a href="{{ route('pages.schedule') }}" class="mobile-link {{ Request::is('jadwal-kegiatan') ? 'active' : '' }}">Program Kerja</a>
                 <a href="{{ route('pages.alumni') }}" class="mobile-link {{ Request::is('alumni-kombo') ? 'active' : '' }}">Ruang Alumni</a>
                 <hr style="border: 0; border-top: 1px solid rgba(0,0,0,0.05); margin: 15px 0;">

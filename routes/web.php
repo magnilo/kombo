@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\DivisionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,6 +35,10 @@ Route::get('/alumni-kombo', function() {
     $batches = \App\Models\AlumniBatch::with('members')->orderBy('year', 'desc')->get();
     return view('pages.alumni', compact('batches'));
 })->name('pages.alumni');
+
+Route::get('/pendaftaran', [RegistrationController::class, 'create'])->name('registration.create');
+Route::post('/pendaftaran', [RegistrationController::class, 'store'])->name('registration.store');
+Route::get('/divisi', [RegistrationController::class, 'divisions'])->name('pages.divisions');
 
 
 
@@ -68,6 +74,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
     Route::delete('/alumni-member/{member}', [\App\Http\Controllers\AlumniController::class, 'destroyMember'])->name('alumni.member.destroy');
     
     Route::resource('faqs', \App\Http\Controllers\FaqController::class);
+
+    Route::resource('divisions', DivisionController::class);
+    Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
 });
 
 Route::middleware('auth')->group(function () {
