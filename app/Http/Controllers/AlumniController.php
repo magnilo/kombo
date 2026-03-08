@@ -19,45 +19,21 @@ class AlumniController extends Controller
     {
         $request->validate([
             'year' => 'required|string|unique:alumni_batches',
-            'group_photo' => 'nullable|image|max:3072',
+            'group_photo' => 'nullable|image|max:30720', // 30MB
             'description' => 'nullable|string',
         ]);
 
-        $data = $request->only(['year', 'description']);
-        if ($request->hasFile('group_photo')) {
-            $data['group_photo'] = $request->file('group_photo')->store('alumni/groups', 'public');
+        try {
+            $data = $request->only(['year', 'description']);
+            if ($request->hasFile('group_photo')) {
+                $data['group_photo'] = $request->file('group_photo')->store('alumni/groups', 'public');
+            }
+
+            AlumniBatch::create($data);
+            return back()->with('success', 'Angkatan alumni berhasil ditambahkan.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal simpan: ' . $e->getMessage()]);
         }
-
-        AlumniBatch::create($data);
-        return back()->with('success', 'Angkatan alumni berhasil ditambahkan.');
-    }
-
-    public function updateBatch(Request $request, AlumniBatch $batch)
-    {
-        $request->validate([
-            'year' => 'required|string|unique:alumni_batches,year,' . $batch->id,
-            'group_photo' => 'nullable|image|max:3072',
-            'description' => 'nullable|string',
-        ]);
-
-        $data = $request->only(['year', 'description']);
-        if ($request->hasFile('group_photo')) {
-            if ($batch->group_photo) Storage::disk('public')->delete($batch->group_photo);
-            $data['group_photo'] = $request->file('group_photo')->store('alumni/groups', 'public');
-        }
-
-        $batch->update($data);
-        return back()->with('success', 'Angkatan alumni berhasil diperbarui.');
-    }
-
-    public function destroyBatch(AlumniBatch $batch)
-    {
-        if ($batch->group_photo) Storage::disk('public')->delete($batch->group_photo);
-        foreach($batch->members as $member) {
-            if ($member->photo) Storage::disk('public')->delete($member->photo);
-        }
-        $batch->delete();
-        return back()->with('success', 'Angkatan alumni beserta anggotanya berhasil dihapus.');
     }
 
     public function storeMember(Request $request, AlumniBatch $batch)
@@ -65,7 +41,7 @@ class AlumniController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'position' => 'nullable|string',
-            'photo' => 'nullable|image|max:1024',
+            'photo' => 'nullable|image|max:30720', // 30MB
         ]);
 
         $data = $request->only(['name', 'position']);
@@ -76,13 +52,23 @@ class AlumniController extends Controller
         }
 
         AlumniMember::create($data);
-        return back()->with('success', 'Alumni baru berhasil ditambahkan ke angkatan ini.');
+        return back()->with('success', 'Alumni baru berhasil ditambahkan.');
+    }
+
+    public function destroyBatch(AlumniBatch $batch)
+    {
+        if ($batch->group_photo) Storage::disk('public')->delete($batch->group_photo);
+        foreach($batch->members as $member) {
+            if ($member->photo) Storage::disk('public')->delete($member->photo);
+        }
+        $batch->delete();
+        return back()->with('success', 'Angkatan berhasil dihapus.');
     }
 
     public function destroyMember(AlumniMember $member)
     {
         if ($member->photo) Storage::disk('public')->delete($member->photo);
         $member->delete();
-        return back()->with('success', 'Anggota alumni dihapus.');
+        return back()->with('success', 'Anggota berhasil dihapus.');
     }
 }

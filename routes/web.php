@@ -86,4 +86,35 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::get('/run-migrate', function () {
+    \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+    return "Migrasi Berhasil Jalur Browser! ✅";
+});
+
+Route::get('/run-optimize', function () {
+    \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+    return "Cache Berhasil Dibersihkan! 🚀";
+});
+
+Route::get('/run-link', function () {
+    $targetPath = storage_path('app/public');
+    $linkPath = public_path('storage');
+    if (file_exists($linkPath)) {
+        return "Folder /storage sudah ada di hosting! ✅";
+    }
+    if (symlink($targetPath, $linkPath)) {
+        return "Storage Link Berhasil Dibuat! Foto sekarang muncul. ✅";
+    }
+    return "Gagal membuat link. Coba hapus folder 'storage' di 'public_html' lalu jalankan lagi. ❌";
+});
+
+Route::get('/check-db', function() {
+    try {
+        $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES'); 
+        return response()->json($tables);
+    } catch (\Exception $e) {
+        return "ERROR DB: " . $e->getMessage();
+    }
+});
+
 require __DIR__.'/auth.php';
