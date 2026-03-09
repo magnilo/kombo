@@ -11,6 +11,12 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        // Auto fix for Vite styles being broken on hosting
+        $hotFile = public_path('hot');
+        if (file_exists($hotFile)) {
+            @unlink($hotFile);
+        }
+
         $countBerita = Berita::count();
         $countJadwal = Jadwal::count();
         $countLeader = Leader::count();

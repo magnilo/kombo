@@ -108,6 +108,37 @@ Route::get('/run-link', function () {
     return "Gagal membuat link. Coba hapus folder 'storage' di 'public_html' lalu jalankan lagi. ❌";
 });
 
+Route::get('/run-fix-vite', function () {
+    $hotFile = public_path('hot');
+    if (file_exists($hotFile)) {
+        unlink($hotFile);
+        return "File 'hot' berhasil dihapus! Sekarang CSS harusnya muncul. ✅";
+    }
+    return "File 'hot' tidak ditemukan. Sudah aman! ✅";
+});
+
+Route::get('/run-env-fix', function() {
+    $envPath = base_path('.env');
+    if (file_exists($envPath)) {
+        $content = file_get_contents($envPath);
+        $content = preg_replace('/APP_URL=.*/', 'APP_URL=https://kombo.siface.my.id', $content);
+        $content = preg_replace('/APP_ENV=.*/', 'APP_ENV=production', $content);
+        $content = preg_replace('/APP_DEBUG=.*/', 'APP_DEBUG=false', $content);
+        file_put_contents($envPath, $content);
+        return ".env berhasil diupdate ke Production! ✅";
+    }
+    return ".env tidak ditemukan! ❌";
+});
+
+Route::get('/run-git-pull', function() {
+    try {
+        $output = shell_exec('git pull origin main 2>&1');
+        return "<pre>HASIL GIT PULL:\n\n$output</pre>";
+    } catch (\Exception $e) {
+        return "ERROR GIT: " . $e->getMessage();
+    }
+});
+
 Route::get('/check-db', function() {
     try {
         $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES'); 

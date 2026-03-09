@@ -65,6 +65,12 @@
 
         .nav-item.active svg { color: #3b82f6; }
 
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
         .sidebar-logo {
             display: flex;
             align-items: center;
@@ -97,6 +103,53 @@
             .main-content { margin-left: 0; }
             .sidebar.open { transform: translateX(0); }
         }
+
+        /* Fallback for Tailwind grid/utility if it fails to load */
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        @media (min-width: 1024px) {
+            .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+            .lg\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+        .gap-6 { gap: 1.5rem; }
+        .gap-8 { gap: 2rem; }
+        .bg-white { background-color: #ffffff; }
+        .p-6 { padding: 1.5rem; }
+        .rounded-3xl { border-radius: 1.5rem; }
+        .shadow-sm { box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); }
+        .border { border-width: 1px; }
+        .border-slate-100 { border-color: #f1f5f9; }
+
+        /* Typography & Grid backup */
+        h1, h2, h3 { color: #1e293b; font-weight: 800; }
+        .text-2xl { font-size: 1.5rem; line-height: 2rem; }
+        .text-slate-800 { color: #1e293b; }
+        .text-slate-500 { color: #64748b; }
+        .font-extrabold { font-weight: 800; }
+        .font-bold { font-weight: 700; }
+        .uppercase { text-transform: uppercase; }
+        .tracking-wider { letter-spacing: 0.05em; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .space-y-8 > :not([hidden]) ~ :not([hidden]) { margin-top: 2rem; }
+        .relative { position: relative; }
+        .overflow-hidden { overflow: hidden; }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .w-12 { width: 3rem; }
+        .h-12 { height: 3rem; }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .text-blue-600 { color: #2563eb; }
+        .bg-emerald-50 { background-color: #ecfdf5; }
+        .text-emerald-600 { color: #059669; }
+        .bg-purple-50 { background-color: #f5f3ff; }
+        .text-purple-600 { color: #7c3aed; }
+        .bg-orange-50 { background-color: #fff7ed; }
+        .text-orange-600 { color: #ea580c; }
     </style>
 </head>
 <body class="antialiased" x-data="{ sidebarOpen: false }">
@@ -192,6 +245,10 @@
                 <a href="{{ url('/') }}" target="_blank" class="px-4 py-2 bg-white border border-slate-200 rounded-xl font-bold text-sm text-slate-600 flex items-center gap-2 hover:bg-slate-50 transition shadow-sm">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                     Pratinjau Web
+                </a>
+                <a href="{{ url('/run-git-pull') }}" class="px-4 py-2 bg-slate-800 rounded-xl font-bold text-sm text-white flex items-center gap-2 hover:bg-slate-900 transition shadow-lg shadow-slate-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    Update System
                 </a>
             </div>
         </header>
