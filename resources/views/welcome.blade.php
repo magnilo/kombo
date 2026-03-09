@@ -38,7 +38,8 @@
     .philo-box { display: grid; gap: 20px; }
     .philo-item { background: #fbfcfe; border-radius: 32px; padding: 30px; border: 1px solid #f1f5f9; }
     .philo-item:hover { background: white; border-color: #4f46e5; box-shadow: 0 15px 30px rgba(79, 70, 229, 0.05); transform: translateX(10px); }
-    .philo-icon { font-size: 2.5rem; margin-bottom: 24px; display: block; }
+    .philo-icon { width: 52px; height: 52px; border-radius: 16px; background: #eef2ff; color: #4f46e5; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 24px; }
+    .philo-icon svg { width: 26px; height: 26px; }
     .philo-item h4 { font-size: 1.5rem; font-weight: 800; color: var(--text-dark); margin-bottom: 12px; }
     .philo-item p { font-size: 1rem; color: var(--text-muted); line-height: 1.7; }
 
@@ -47,9 +48,13 @@
     .vm-section { padding: 40px 5% 80px; }
     .vm-card { background: #0f172a; border-radius: 40px; padding: 60px 5%; color: white; position: relative; overflow: hidden; }
     .vm-inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+    .vm-label { display: inline-block; font-weight: 800; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: #94a3b8; margin-bottom: 16px; }
     
     .v-text { font-size: clamp(1.5rem, 5vw, 2.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 30px; }
-    .m-item p { font-size: 1rem; color: #94a3b8; line-height: 1.6; }
+    .m-list { display: grid; gap: 16px; margin-top: 10px; }
+    .m-item { display: grid; grid-template-columns: 46px 1fr; gap: 14px; align-items: start; background: rgba(148, 163, 184, 0.08); border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 18px; padding: 14px; }
+    .m-num { width: 34px; height: 34px; border-radius: 10px; background: #4f46e5; color: white; font-weight: 800; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; margin-top: 2px; }
+    .m-item p { margin: 0; font-size: 0.98rem; color: #cbd5e1; line-height: 1.65; }
 
     /* FAQ */
     .faq-section { padding: 120px 10%; background: #fbfcfe; }
@@ -77,6 +82,7 @@
         .about-grid { grid-template-columns: 1fr; gap: 40px; }
         .philo-box { grid-template-columns: 1fr; }
         .vm-inner { grid-template-columns: 1fr; gap: 40px; }
+        .m-item { grid-template-columns: 40px 1fr; }
         
         .contact-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
         .contact-map { height: 350px !important; order: 1; transform: rotate(0deg) !important; border-radius: 30px !important; width: 100% !important; }
@@ -162,12 +168,12 @@
 
             <div class="philo-box">
                 <div class="philo-item">
-                    <span class="philo-icon">🤝</span>
+                    <span class="philo-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12l3 3 5-5m-9 7h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></span>
                     <h4>Kekeluargaan</h4>
                     <p>Karena di tanah rantau, teman se-organisasi adalah keluarga kedua yang paling berharga.</p>
                 </div>
                 <div class="philo-item">
-                    <span class="philo-icon">⚡</span>
+                    <span class="philo-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></span>
                     <h4>Dinamis</h4>
                     <p>Merespon tantangan zaman dengan inovasi digital dan aksi kepemudaan yang progresif.</p>
                 </div>
@@ -224,7 +230,7 @@
                         @if($berita->image)
                             <img src="{{ asset('storage/' . $berita->image) }}" style="width: 100%; height: 100%; object-fit: cover;" alt="{{ $berita->title }}">
                         @else
-                            <div style="width: 100%; height: 100%; background: #f8fafc; display: flex; align-items: center; justify-content: center; font-size: 3rem;">🗞️</div>
+                            <div style="width: 100%; height: 100%; background: #f8fafc; display: flex; align-items: center; justify-content: center; color: #94a3b8;"><svg style="width: 52px; height: 52px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h6M7 16h10"/></svg></div>
                         @endif
                     </div>
                     <div style="padding: 24px 10px 10px;">
@@ -243,7 +249,7 @@
                 </div>
             @empty
                 <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 80px; background: #fbfcfe; border-radius: 40px; border: 2px dashed #f1f5f9;">
-                    <div style="font-size: 3rem; margin-bottom: 20px;">🗞️</div>
+                    <div style="margin-bottom: 20px; color: #94a3b8;"><svg style="width: 52px; height: 52px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h6M7 16h10"/></svg></div>
                     <h5 style="font-weight: 800; color: var(--text-dark); font-size: 1.2rem;">Belum ada berita yang diterbitkan</h5>
                     <p>Nantikan update terbaru dari aksi-aksi kami di sini.</p>
                 </div>
@@ -299,14 +305,14 @@
                 
                 <div style="display: grid; gap: 20px;">
                     <div style="display: flex; gap: 24px; align-items: center; background: #fbfcfe; padding: 28px; border-radius: 32px; border: 1px solid #f1f5f9;">
-                        <div style="width: 56px; height: 56px; background: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #4f46e5; font-size: 1.5rem;">📞</div>
+                        <div style="width: 56px; height: 56px; background: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #4f46e5;"><svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a2 2 0 011.94 1.515l.57 2.28a2 2 0 01-.54 1.94L9.2 9.8a16 16 0 006 6l1.065-1.05a2 2 0 011.94-.54l2.28.57A2 2 0 0122 16.72V20a2 2 0 01-2 2h-1C10.163 22 2 13.837 2 3V2a1 1 0 011-1z"/></svg></div>
                         <div>
                             <div style="font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">Hotline Center</div>
                             <div style="font-weight: 800; font-size: 1.2rem; color: var(--text-dark);">{{ $profile->contact_phone ?? '-' }}</div>
                         </div>
                     </div>
                     <div style="display: flex; gap: 24px; align-items: center; background: #fbfcfe; padding: 28px; border-radius: 32px; border: 1px solid #f1f5f9;">
-                        <div style="width: 56px; height: 56px; background: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #4f46e5; font-size: 1.5rem;">✉️</div>
+                        <div style="width: 56px; height: 56px; background: rgba(79, 70, 229, 0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #4f46e5;"><svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l9 6 9-6m0 8H3a2 2 0 01-2-2V8a2 2 0 012-2h18a2 2 0 012 2v6a2 2 0 01-2 2z"/></svg></div>
                         <div>
                             <div style="font-weight: 800; font-size: 0.7rem; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px;">Official Email</div>
                             <div style="font-weight: 800; font-size: 1.2rem; color: var(--text-dark);">{{ $profile->contact_email ?? '-' }}</div>

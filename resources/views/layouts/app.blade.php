@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#1e3a8a">
 
     <title>{{ config('app.name', 'Laravel') }} - Admin</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-kombo.png') }}">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,10 +15,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @if (file_exists(public_path('hot')) || file_exists(public_path('build/manifest.json')))
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @endif
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f8fafc; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f3f7ff; }
         
         .sidebar {
             width: 280px;
@@ -59,11 +63,11 @@
         }
 
         .nav-item.active {
-            background: #eff6ff;
-            color: #3b82f6;
+            background: #dbeafe;
+            color: #1e3a8a;
         }
 
-        .nav-item.active svg { color: #3b82f6; }
+        .nav-item.active svg { color: #1e3a8a; }
 
         .nav-item svg {
             width: 20px;
@@ -88,7 +92,7 @@
         .logo-text {
             font-size: 1.25rem;
             font-weight: 800;
-            color: #1e293b;
+            color: #1e3a8a;
         }
 
         .header-top {
@@ -142,8 +146,8 @@
         .justify-center { justify-content: center; }
         .w-12 { width: 3rem; }
         .h-12 { height: 3rem; }
-        .bg-blue-50 { background-color: #eff6ff; }
-        .text-blue-600 { color: #2563eb; }
+        .bg-blue-50 { background-color: #dbeafe; }
+        .text-blue-600 { color: #1e3a8a; }
         .bg-emerald-50 { background-color: #ecfdf5; }
         .text-emerald-600 { color: #059669; }
         .bg-purple-50 { background-color: #f5f3ff; }
@@ -211,7 +215,7 @@
 
         <div style="margin-top: auto; padding-top: 24px; border-top: 1px solid #f1f5f9;">
             <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-left: 12px;">
-                <div style="width: 40px; height: 40px; background: #f1f5f9; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #3b82f6;">
+                <div style="width: 40px; height: 40px; background: #eff6ff; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #1e3a8a;">
                     {{ substr(Auth::user()->name, 0, 1) }}
                 </div>
                 <div>

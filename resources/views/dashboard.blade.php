@@ -12,7 +12,7 @@
             
             <div style="position: relative; z-index: 10;">
                 <h2 style="font-size: 1.875rem; font-weight: 800; margin-bottom: 12px; color: white; letter-spacing: -0.5px;">
-                    Selamat Datang, {{ Auth::user()->name }}! 👋
+                    Selamat Datang, {{ Auth::user()->name }}
                 </h2>
                 <p style="font-size: 1.125rem; color: rgba(255, 255, 255, 0.9); max-width: 500px; line-height: 1.6; font-weight: 500;">
                     Panel kendali untuk mengelola seluruh ekosistem digital KOMBO. Pilih menu di samping untuk mulai beraksi.
@@ -26,29 +26,29 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4">📰</div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h6M7 16h10"/></svg></div>
                 <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total Berita</div>
-                <div class="text-2xl font-extrabold text-slate-800">{{ $countBerita }} Artikel</div>
+                <div class="text-2xl font-extrabold text-slate-800">{{ $stats['berita'] }} Artikel</div>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4">📅</div>
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></div>
                 <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Agenda Aktif</div>
-                <div class="text-2xl font-extrabold text-slate-800">{{ $countJadwal }} Proker</div>
+                <div class="text-2xl font-extrabold text-slate-800">{{ $stats['jadwal'] }} Proker</div>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4">👥</div>
+                <div class="w-12 h-12 bg-purple-50 text-purple-600 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m8-4a4 4 0 11-8 0 4 4 0 018 0zm-10 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
                 <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Pengurus</div>
-                <div class="text-2xl font-extrabold text-slate-800">{{ $countLeader }} Anggota</div>
+                <div class="text-2xl font-extrabold text-slate-800">{{ $stats['leader'] }} Anggota</div>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
-                <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-xl mb-4">🎓</div>
+                <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422A12.083 12.083 0 0119 17.764L12 21l-7-3.236a12.083 12.083 0 01.84-7.764L12 14z"/></svg></div>
                 <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Total Alumni</div>
-                <div class="text-2xl font-extrabold text-slate-800">{{ $countAlumni }} Orang</div>
+                <div class="text-2xl font-extrabold text-slate-800">{{ $stats['alumni'] }} Orang</div>
             </div>
             <div class="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm ring-4 ring-blue-500/5">
-                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4">✨</div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-3-3v6m7 4H5a2 2 0 01-2-2V7a2 2 0 012-2h14a2 2 0 012 2v10a2 2 0 01-2 2z"/></svg></div>
                 <div class="text-slate-500 text-xs font-bold uppercase tracking-wider mb-1">Calon Anggota</div>
-                <div class="text-2xl font-extrabold text-slate-800">{{ $countRegistration }} Daftar</div>
+                <div class="text-2xl font-extrabold text-slate-800">{{ $stats['registration'] }} Daftar</div>
             </div>
         </div>
 

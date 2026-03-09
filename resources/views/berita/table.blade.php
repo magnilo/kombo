@@ -4,7 +4,7 @@
         {{-- Header --}}
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-xl font-semibold text-gray-800">
-                📰 Berita Terkini
+                <span class="inline-flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h6M7 16h10"/></svg>Berita Terkini</span>
             </h3>
             <a href="{{ route('berita.create') }}"
                 class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition shadow">

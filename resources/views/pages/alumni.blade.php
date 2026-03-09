@@ -116,7 +116,7 @@
         </div>
         @empty
         <div style="text-align:center; padding: 100px 0; color: var(--text-muted); background: white; border-radius: 40px; border: 1px solid var(--border);">
-            <span style="font-size: 4rem;">🎓</span>
+            <span style="display: inline-flex; color: #94a3b8;"><svg style="width: 64px; height: 64px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422A12.083 12.083 0 0119 17.764L12 21l-7-3.236a12.083 12.083 0 01.84-7.764L12 14z"/></svg></span>
             <p class="mt-4 font-bold text-lg">Belum ada data alumni yang dipublikasikan.</p>
         </div>
         @endforelse

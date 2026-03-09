@@ -69,17 +69,17 @@
         </div>
         <div class="philosophies">
             <div class="philo-card">
-                <span class="philo-icon">🤝</span>
+                <span class="philo-icon"><svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12l3 3 5-5m-9 7h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg></span>
                 <h3>Solidaritas Tinggi</h3>
                 <p>Mengedepankan kekeluargaan sebagai fondasi utama dalam berorganisasi dan berkolaborasi.</p>
             </div>
             <div class="philo-card">
-                <span class="philo-icon">📚</span>
+                <span class="philo-icon"><svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5A4.5 4.5 0 003 9.5v9A4.5 4.5 0 017.5 14c1.746 0 3.332.477 4.5 1.253m0-9C13.168 5.477 14.754 5 16.5 5A4.5 4.5 0 0121 9.5v9a4.5 4.5 0 00-4.5-4.5c-1.746 0-3.332.477-4.5 1.253"/></svg></span>
                 <h3>Intelektual Progresif</h3>
                 <p>Terus belajar dan berinovasi untuk memberikan solusi nyata bagi tantangan mahasiswa dan daerah.</p>
             </div>
             <div class="philo-card">
-                <span class="philo-icon">🏗️</span>
+                <span class="philo-icon"><svg style="width: 26px; height: 26px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M5 21V7l7-4 7 4v14M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg></span>
                 <h3>Pengabdian Daerah</h3>
                 <p>Setiap program dirancang untuk memberikan dampak positif bagi Bondowoso tercinta.</p>
             </div>

@@ -121,8 +121,8 @@
                         <div class="div-badge">{{ $jadwal->division ?? 'Umum' }}</div>
                         <h3>{{ $jadwal->title }}</h3>
                         <div class="event-meta">
-                            <span>📍 {{ $jadwal->location }}</span>
-                            <span>⏰ {{ \Carbon\Carbon::parse($jadwal->time)->format('H:i') }} WIB</span>
+                            <span style="display: inline-flex; align-items: center; gap: 6px;"><svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>{{ $jadwal->location }}</span>
+                            <span style="display: inline-flex; align-items: center; gap: 6px;"><svg style="width: 16px; height: 16px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>{{ \Carbon\Carbon::parse($jadwal->time)->format('H:i') }} WIB</span>
                         </div>
                         <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
                             {{ Str::limit($jadwal->description, 100) }}
@@ -131,7 +131,7 @@
                 </div>
             @empty
                 <div style="grid-column: 1/-1; text-align: center; padding: 100px 0;">
-                    <span style="font-size: 4rem;">📅</span>
+                    <span style="display: inline-flex; color: #94a3b8;"><svg style="width: 64px; height: 64px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg></span>
                     <p style="color: var(--text-muted); margin-top: 20px;">Belum ada jadwal kegiatan terdekat.</p>
                 </div>
             @endforelse

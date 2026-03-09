@@ -4,7 +4,7 @@
     <div class="max-w-4xl mx-auto py-8">
         @if(session('success'))
             <div class="mb-8 p-6 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-3xl flex items-center gap-4 animate-fadeIn">
-                <span class="text-2xl">✅</span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/></svg>
                 <span class="font-bold">{{ session('success') }}</span>
             </div>
         @endif
@@ -64,7 +64,7 @@
 
                     <div class="pt-10 border-t border-slate-50">
                         <h4 class="text-sm font-black text-slate-800 mb-6 flex items-center gap-3 italic">
-                            <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center not-italic">🔗</span>
+                            <span class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center not-italic"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 010 5.656l-2 2a4 4 0 01-5.656-5.656l1-1m3-3l2-2a4 4 0 015.656 5.656l-1 1"/></svg></span>
                             Kontak & Media Sosial
                         </h4>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -93,7 +93,7 @@
 
                     <div class="pt-10 border-t border-slate-50">
                         <h4 class="text-sm font-black text-slate-800 mb-6 flex items-center gap-3 italic">
-                            <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center not-italic">🛡️</span>
+                            <span class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center not-italic"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/></svg></span>
                             Branding Footer
                         </h4>
                         <div>
@@ -106,7 +106,7 @@
 
                     <div class="pt-10 border-t border-slate-50">
                         <h4 class="text-sm font-black text-slate-800 mb-6 flex items-center gap-3 italic">
-                            <span class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center not-italic">📍</span>
+                            <span class="w-8 h-8 rounded-lg bg-slate-100 text-slate-600 flex items-center justify-center not-italic"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></span>
                             Lokasi (Maps)
                         </h4>
                         <label class="block text-[11px] font-extrabold text-slate-400 uppercase tracking-widest mb-3">Embed Kode Google Maps (iFrame)</label>

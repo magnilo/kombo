@@ -12,7 +12,7 @@
 
         @if(session('success'))
             <div class="p-4 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-2xl font-bold flex items-center gap-3">
-                <span>✅</span> {{ session('success') }}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/></svg> {{ session('success') }}
             </div>
         @endif
 
@@ -44,8 +44,8 @@
                                     </div>
                                 </td>
                                 <td class="px-8 py-5">
-                                    <div class="text-sm font-bold text-slate-600">📍 {{ $jadwal->location }}</div>
-                                    <div class="text-xs text-slate-400 font-medium mt-1">⏰ {{ \Carbon\Carbon::parse($jadwal->time)->format('H:i') }} WIB</div>
+                                    <div class="text-sm font-bold text-slate-600 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>{{ $jadwal->location }}</div>
+                                    <div class="text-xs text-slate-400 font-medium mt-1 flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>{{ \Carbon\Carbon::parse($jadwal->time)->format('H:i') }} WIB</div>
                                 </td>
                                 <td class="px-8 py-5">
                                     <div class="flex justify-end gap-3">

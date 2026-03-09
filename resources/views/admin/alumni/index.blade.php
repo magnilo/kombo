@@ -17,7 +17,7 @@
         <!-- Notifikasi -->
         @if(session('success'))
             <div x-data="{ show: true }" x-show="show" class="p-4 bg-emerald-50 text-emerald-700 rounded-2xl font-bold flex justify-between items-center">
-                <span>✅ {{ session('success') }}</span>
+                <span class="flex items-center gap-2"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/></svg>{{ session('success') }}</span>
                 <button @click="show = false">&times;</button>
             </div>
         @endif

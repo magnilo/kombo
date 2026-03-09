@@ -2,57 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreFaqRequest;
+use App\Http\Requests\UpdateFaqRequest;
 use App\Models\Faq;
-use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of FAQs.
      */
     public function index()
     {
-        $faqs = Faq::orderBy('order')->get();
+        $faqs = Faq::ordered()->get();
         return view('admin.faqs.index', compact('faqs'));
     }
 
+    /**
+     * Show the form for creating a new FAQ.
+     */
     public function create()
     {
         return view('admin.faqs.form');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created FAQ.
+     */
+    public function store(StoreFaqRequest $request)
     {
-        $request->validate([
-            'question' => 'required|string|max:255',
-            'answer' => 'required|string',
-            'order' => 'required|integer',
-        ]);
+        Faq::create($request->validated());
 
-        Faq::create($request->all());
-        return redirect()->route('faqs.index')->with('success', 'FAQ berhasil ditambahkan.');
+        return redirect()
+            ->route('faqs.index')
+            ->with('success', 'FAQ berhasil ditambahkan.');
     }
 
+    /**
+     * Show the form for editing a FAQ.
+     */
     public function edit(Faq $faq)
     {
         return view('admin.faqs.form', compact('faq'));
     }
 
-    public function update(Request $request, Faq $faq)
+    /**
+     * Update the specified FAQ.
+     */
+    public function update(UpdateFaqRequest $request, Faq $faq)
     {
-        $request->validate([
-            'question' => 'required|string|max:255',
-            'answer' => 'required|string',
-            'order' => 'required|integer',
-        ]);
+        $faq->update($request->validated());
 
-        $faq->update($request->all());
-        return redirect()->route('faqs.index')->with('success', 'FAQ berhasil diperbarui.');
+        return redirect()
+            ->route('faqs.index')
+            ->with('success', 'FAQ berhasil diperbarui.');
     }
 
+    /**
+     * Remove the specified FAQ.
+     */
     public function destroy(Faq $faq)
     {
         $faq->delete();
-        return redirect()->route('faqs.index')->with('success', 'FAQ berhasil dihapus.');
+
+        return redirect()
+            ->route('faqs.index')
+            ->with('success', 'FAQ berhasil dihapus.');
     }
 }

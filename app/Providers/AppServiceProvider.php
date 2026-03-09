@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\OrganizationProfile;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +23,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        \Illuminate\Support\Facades\View::share('profile', \App\Models\OrganizationProfile::first());
+        if (app()->runningInConsole()) {
+            return;
+        }
+
+        try {
+            $profile = Schema::hasTable('organization_profiles')
+                ? OrganizationProfile::first()
+                : null;
+        } catch (QueryException) {
+            $profile = null;
+        }
+
+        View::share('profile', $profile);
     }
 }

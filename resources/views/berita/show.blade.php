@@ -33,7 +33,7 @@
             @if($berita->image)
                 <img src="{{ asset('storage/' . $berita->image) }}" class="article-hero" alt="{{ $berita->title }}">
             @else
-                <div style="width: 100%; height: 300px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #cbd5e1;">📰</div>
+                <div style="width: 100%; height: 300px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; color: #cbd5e1;"><svg style="width: 60px; height: 60px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M19 4H5a2 2 0 00-2 2v12a2 2 0 002 2h14a2 2 0 002-2V6a2 2 0 00-2-2zM7 8h10M7 12h6M7 16h10"/></svg></div>
             @endif
             
             <div class="article-content">

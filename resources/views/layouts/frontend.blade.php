@@ -3,29 +3,52 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#1e3a8a" />
     <title>@yield('title', 'KOMBO - Komunitas Mahasiswa Bondowoso')</title>
+    <link rel="icon" type="image/png" href="{{ asset('assets/img/logo-kombo.png') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('theme');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            var theme = savedTheme || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --secondary: #0ea5e9;
+            --primary: #1e3a8a;
+            --primary-hover: #1d4ed8;
+            --secondary: #10b981;
             --text-dark: #0f172a;
             --text-muted: #64748b;
-            --bg-light: #f8fafc;
+            --bg-light: #f3f7ff;
+            --bg-card: #ffffff;
             --glass: rgba(255, 255, 255, 0.9);
-            --border: rgba(0, 0, 0, 0.05);
+            --border: rgba(30, 58, 138, 0.12);
             --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
             --shadow-xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
         }
 
+        [data-theme='dark'] {
+            --primary: #60a5fa;
+            --primary-hover: #93c5fd;
+            --secondary: #34d399;
+            --text-dark: #e2e8f0;
+            --text-muted: #94a3b8;
+            --bg-light: #020617;
+            --bg-card: #0f172a;
+            --glass: rgba(15, 23, 42, 0.86);
+            --border: rgba(148, 163, 184, 0.16);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; padding-top: 80px; }
+        body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; padding-top: 80px; transition: background-color 0.25s ease, color 0.25s ease; }
         h1, h2, h3, h4, .logo-text { font-family: 'Outfit', sans-serif; }
         a { text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
@@ -37,11 +60,11 @@
             width: 92%;
             max-width: 1250px;
             height: 85px;
-            background: rgba(255, 255, 255, 0.8);
+            background: var(--glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 99px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -53,9 +76,9 @@
         .logo { display: flex; align-items: center; gap: 14px; }
         .logo img { height: 55px; width: auto; transition: transform 0.3s; }
         .logo:hover img { transform: scale(1.05); }
-        .logo span { font-weight: 800; color: #1e3a8a; font-size: 1.6rem; letter-spacing: -1px; }
+        .logo span { font-weight: 800; color: var(--primary); font-size: 1.6rem; letter-spacing: -1px; }
 
-        .nav-links { display: flex; align-items: center; gap: 4px; background: rgba(0,0,0,0.03); padding: 4px; border-radius: 99px; }
+        .nav-links { display: flex; align-items: center; gap: 4px; background: color-mix(in srgb, var(--primary) 7%, transparent); padding: 4px; border-radius: 99px; }
         .nav-pill { 
             padding: 8px 20px; 
             border-radius: 99px; 
@@ -64,15 +87,30 @@
             color: var(--text-dark);
             transition: all 0.2s ease;
         }
-        .nav-pill:hover { background: rgba(0,0,0,0.05); }
+        .nav-pill:hover { background: color-mix(in srgb, var(--primary) 14%, transparent); }
         .nav-pill.active { 
-            background: #3b82f6; 
+            background: var(--primary); 
             color: white; 
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+            box-shadow: 0 4px 10px color-mix(in srgb, var(--primary) 35%, transparent);
         }
 
-        .nav-btn { background: var(--primary); color: white !important; padding: 12px 24px; border-radius: 99px; font-weight: 700; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
-        .nav-btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 16px rgba(79, 70, 229, 0.3); }
+        .nav-btn { background: var(--primary); color: white !important; padding: 12px 24px; border-radius: 99px; font-weight: 700; box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 40%, transparent); }
+        .nav-btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 8px 16px color-mix(in srgb, var(--primary) 55%, transparent); }
+
+        .theme-toggle {
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--primary);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .theme-toggle:hover { transform: translateY(-1px); background: color-mix(in srgb, var(--primary) 10%, var(--bg-card)); }
 
         /* General Section Styling */
         .section { padding: 100px 5%; }
@@ -81,15 +119,15 @@
         .section-title p { color: var(--text-muted); font-size: 1.15rem; }
 
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; }
-        .card { background: white; border-radius: 40px; border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); overflow: hidden; display: flex; flex-direction: column; }
+        .card { background: var(--bg-card); border-radius: 40px; border: 1px solid var(--border); transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1); overflow: hidden; display: flex; flex-direction: column; }
         .card:hover { transform: translateY(-12px); box-shadow: var(--shadow-xl); border-color: rgba(59, 130, 246, 0.2); }
 
         /* Shared Components */
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; border-radius: 99px; font-weight: 700; font-size: 1rem; cursor: pointer; gap: 8px; transition: all 0.3s; }
-        .btn-primary { background: #3b82f6; color: white; box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2); }
-        .btn-primary:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 15px 30px rgba(59, 130, 246, 0.3); }
-        .btn-outline { background: white; color: #3b82f6; border: 2px solid rgba(59, 130, 246, 0.2); }
-        .btn-outline:hover { background: rgba(59, 130, 246, 0.05); border-color: #3b82f6; }
+        .btn-primary { background: var(--primary); color: white; box-shadow: 0 10px 20px color-mix(in srgb, var(--primary) 35%, transparent); }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 15px 30px color-mix(in srgb, var(--primary) 45%, transparent); }
+        .btn-outline { background: var(--bg-card); color: var(--primary); border: 2px solid color-mix(in srgb, var(--primary) 25%, transparent); }
+        .btn-outline:hover { background: color-mix(in srgb, var(--primary) 8%, var(--bg-card)); border-color: var(--primary); }
 
         footer { background: #0f172a; color: white; padding: 120px 5% 40px; margin-top: 120px; position: relative; overflow: hidden; }
         footer::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 1px; background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.3), transparent); }
@@ -109,7 +147,7 @@
         .mobile-menu {
             position: fixed;
             top: 100px; left: 5%; right: 5%;
-            background: white;
+            background: var(--bg-card);
             border-radius: 30px;
             padding: 24px;
             box-shadow: var(--shadow-xl);
@@ -124,13 +162,13 @@
             font-weight: 700; 
             font-size: 1rem;
         }
-        .mobile-link.active { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .mobile-link.active { background: color-mix(in srgb, var(--primary) 14%, transparent); color: var(--primary); }
         [x-cloak] { display: none !important; }
 
         .auth-btns { display: flex; align-items: center; gap: 15px; }
         .login-link { color: var(--text-dark); font-weight: 700; font-size: 0.9rem; }
         .mobile-toggle { display: none; color: var(--text-dark); background: none; border: none; cursor: pointer; padding: 10px; border-radius: 12px; transition: all 0.2s; }
-        .mobile-toggle:hover { background: rgba(0,0,0,0.05); }
+        .mobile-toggle:hover { background: color-mix(in srgb, var(--primary) 12%, transparent); }
 
         @media (max-width: 1024px) {
             body { padding-top: 100px; }
@@ -154,7 +192,7 @@
 </head>
 <body>
 
-    <header x-data="{ mobileMenuOpen: false }">
+    <header x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.getAttribute('data-theme') === 'dark', toggleTheme() { this.darkMode = !this.darkMode; const next = this.darkMode ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); } }">
         <a href="{{ url('/') }}" class="logo">
             <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="Logo">
             <span>KOMBO</span>
@@ -172,6 +210,10 @@
         </nav>
 
         <div class="auth-btns">
+            <button type="button" class="theme-toggle" @click="toggleTheme" aria-label="Toggle dark mode">
+                <svg x-show="!darkMode" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M7.05 7.05L5.636 5.636m12.728 0L16.95 7.05M7.05 16.95l-1.414 1.414M12 16a4 4 0 100-8 4 4 0 000 8z"/></svg>
+                <svg x-show="darkMode" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-cloak><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 118.646 3.646 7 7 0 0020.354 15.354z"/></svg>
+            </button>
             @auth
                 <a href="{{ url('/dashboard') }}" class="nav-btn">Panel Admin</a>
             @else
@@ -189,6 +231,10 @@
         <!-- Mobile Menu Drawer -->
         <div class="mobile-menu" x-show="mobileMenuOpen" x-transition.opacity @click.away="mobileMenuOpen = false" x-cloak>
             <div class="mobile-menu-content">
+                <button type="button" class="theme-toggle" @click="toggleTheme" style="margin-bottom: 8px;">
+                    <svg x-show="!darkMode" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v2m0 14v2m9-9h-2M5 12H3m15.364 6.364l-1.414-1.414M7.05 7.05L5.636 5.636m12.728 0L16.95 7.05M7.05 16.95l-1.414 1.414M12 16a4 4 0 100-8 4 4 0 000 8z"/></svg>
+                    <svg x-show="darkMode" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" x-cloak><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 118.646 3.646 7 7 0 0020.354 15.354z"/></svg>
+                </button>
                 <a href="{{ route('home') }}" class="mobile-link {{ Request::is('/') ? 'active' : '' }}">Beranda</a>
                 <a href="{{ route('registration.create') }}" class="mobile-link {{ Request::is('pendaftaran') ? 'active' : '' }}">Pendaftaran</a>
                 <a href="{{ route('pages.divisions') }}" class="mobile-link {{ Request::is('divisi') ? 'active' : '' }}">Kenali Divisi</a>

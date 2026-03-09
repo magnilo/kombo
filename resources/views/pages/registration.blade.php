@@ -80,7 +80,7 @@
 <div class="reg-form-container">
     @if(session('success'))
         <div style="background: #ecfdf5; border-left: 6px solid #10b981; padding: 24px; border-radius: 24px; margin-bottom: 32px; color: #065f46; font-weight: 700;">
-            <div style="font-size: 1.25rem; margin-bottom: 4px;">Pendaftaran Terkirim! ✨</div>
+            <div style="font-size: 1.25rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;"><svg style="width: 22px; height: 22px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/></svg>Pendaftaran Terkirim!</div>
             {{ session('success') }}
         </div>
     @endif

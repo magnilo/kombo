@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Registration extends Model
 {
@@ -18,7 +19,16 @@ class Registration extends Model
         'division_id',
     ];
 
-    public function division()
+    protected $casts = [
+        'division_id' => 'integer',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
+    /**
+     * Get the division that this registration belongs to
+     */
+    public function division(): BelongsTo
     {
         return $this->belongsTo(Division::class);
     }

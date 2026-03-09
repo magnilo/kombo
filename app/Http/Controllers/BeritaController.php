@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreBeritaRequest;
+use App\Http\Requests\UpdateBeritaRequest;
 use App\Models\Berita;
+use App\Services\ImageUploadService;
 
 class BeritaController extends Controller
 {
+    public function __construct(
+        private ImageUploadService $imageService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -32,56 +38,74 @@ class BeritaController extends Controller
         return view('berita.form');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreBeritaRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-        ]);
+        $validated = $request->validated();
 
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-        }
+        $data = [
+            'title' => $validated['title'],
+            'slug' => Berita::generateSlug($validated['title']),
+            'content' => $validated['content'],
+            'image' => $request->hasFile('image') 
+                ? $this->imageService->upload($request->file('image'), 'images')
+                : null,
+        ];
 
-        Berita::create([
-            'title' => $request->title,
-            'slug' => \Illuminate\Support\Str::slug($request->title) . '-' . \Illuminate\Support\Str::random(5),
-            'content' => $request->content,
-            'image' => $imagePath,
-        ]);
+        Berita::create($data);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan');
+        return redirect()
+            ->route('berita.index')
+            ->with('success', 'Berita berhasil ditambahkan');
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(Berita $berita)
     {
         return view('berita.form', compact('berita'));
     }
-    public function update(Request $request, Berita $berita)
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateBeritaRequest $request, Berita $berita)
     {
-        $request->validate([
-            'title' => 'required',
-            'content' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:10240',
-        ]);
+        $validated = $request->validated();
+
+        $data = [
+            'title' => $validated['title'],
+            'content' => $validated['content'],
+        ];
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-            $berita->image = $imagePath;
+            $data['image'] = $this->imageService->update(
+                $request->file('image'),
+                $berita->image,
+                'images'
+            );
         }
 
-        $berita->title = $request->title;
-        $berita->content = $request->content;
-        $berita->save();
+        $berita->update($data);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil diupdate');
+        return redirect()
+            ->route('berita.index')
+            ->with('success', 'Berita berhasil diupdate');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(Berita $berita)
     {
+        $this->imageService->delete($berita->image);
         $berita->delete();
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus');
+
+        return redirect()
+            ->route('berita.index')
+            ->with('success', 'Berita berhasil dihapus');
     }
 }

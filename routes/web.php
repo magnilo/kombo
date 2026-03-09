@@ -1,123 +1,138 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AlumniController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\LeaderController;
+use App\Http\Controllers\OrganizationProfileController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistrationController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    $profile = \App\Models\OrganizationProfile::first();
-    $beritas = \App\Models\Berita::latest()->take(3)->get();
-    $jadwals = \App\Models\Jadwal::latest()->take(3)->get();
-    $leaders = \App\Models\Leader::orderBy('order')->get();
-    $faqs = \App\Models\Faq::orderBy('order')->get();
-    return view('welcome', compact('beritas', 'jadwals', 'leaders', 'faqs', 'profile'));
-})->name('home');
+/*
+|--------------------------------------------------------------------------
+| Public Routes
+|--------------------------------------------------------------------------
+*/
 
-
-Route::get('/struktur-organisasi', function() {
-    $leaders = \App\Models\Leader::orderBy('order')->get();
-    return view('pages.structure', compact('leaders'));
-})->name('pages.structure');
-
-Route::get('/berita-kegiatan', function() {
-    $beritas = \App\Models\Berita::latest()->paginate(9);
-    return view('pages.news', compact('beritas'));
-})->name('pages.news');
-
-Route::get('/jadwal-kegiatan', function() {
-    $jadwals = \App\Models\Jadwal::latest()->paginate(9);
-    return view('pages.schedule', compact('jadwals'));
-})->name('pages.schedule');
-
-Route::get('/alumni-kombo', function() {
-    $batches = \App\Models\AlumniBatch::with('members')->orderBy('year', 'desc')->get();
-    return view('pages.alumni', compact('batches'));
-})->name('pages.alumni');
-
-Route::get('/pendaftaran', [RegistrationController::class, 'create'])->name('registration.create');
-Route::post('/pendaftaran', [RegistrationController::class, 'store'])->name('registration.store');
+Route::get('/', [PageController::class, 'home'])->name('home');
+Route::get('/struktur-organisasi', [PageController::class, 'structure'])->name('pages.structure');
+Route::get('/berita-kegiatan', [PageController::class, 'news'])->name('pages.news');
+Route::get('/jadwal-kegiatan', [PageController::class, 'schedule'])->name('pages.schedule');
+Route::get('/alumni-kombo', [PageController::class, 'alumni'])->name('pages.alumni');
 Route::get('/divisi', [RegistrationController::class, 'divisions'])->name('pages.divisions');
 
+// Public Registration Routes
+Route::get('/pendaftaran', [RegistrationController::class, 'create'])->name('registration.create');
+Route::post('/pendaftaran', [RegistrationController::class, 'store'])->name('registration.store');
 
+// Public News Detail (slug-based)
+Route::get('/berita/{berita:slug}', [BeritaController::class, 'show'])->name('berita.show');
 
+/*
+|--------------------------------------------------------------------------
+| Authenticated Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::resource('berita', \App\Http\Controllers\BeritaController::class)
-    ->middleware(['auth', 'verified'])
-    ->parameters(['berita' => 'berita']);
+    // Berita & Jadwal Resources
+    Route::resource('berita', BeritaController::class)->except('show')->parameters(['berita' => 'berita']);
+    Route::resource('jadwal', JadwalController::class);
 
-Route::resource('jadwal', \App\Http\Controllers\JadwalController::class)
-    ->middleware(['auth', 'verified']);
-
-Route::get('/berita/{berita:slug}', [\App\Http\Controllers\BeritaController::class, 'show'])->name('berita.show');
-
-Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
-    Route::get('/organization', [\App\Http\Controllers\OrganizationProfileController::class, 'edit'])->name('organization.edit');
-    Route::patch('/organization', [\App\Http\Controllers\OrganizationProfileController::class, 'update'])->name('organization.update');
-    
-    Route::get('/leaders/bulk', [\App\Http\Controllers\LeaderController::class, 'createBulk'])->name('leaders.bulk.create');
-    Route::post('/leaders/bulk', [\App\Http\Controllers\LeaderController::class, 'storeBulk'])->name('leaders.bulk.store');
-    Route::get('/leaders/history', [\App\Http\Controllers\LeaderController::class, 'history'])->name('leaders.history');
-    Route::patch('/leaders/{leader}/archive', [\App\Http\Controllers\LeaderController::class, 'archive'])->name('leaders.archive');
-    Route::patch('/leaders/{leader}/restore', [\App\Http\Controllers\LeaderController::class, 'restore'])->name('leaders.restore');
-    Route::resource('leaders', \App\Http\Controllers\LeaderController::class);
-    
-    Route::get('/alumni', [\App\Http\Controllers\AlumniController::class, 'index'])->name('alumni.index');
-    Route::post('/alumni-batch', [\App\Http\Controllers\AlumniController::class, 'storeBatch'])->name('alumni.batch.store');
-    Route::patch('/alumni-batch/{batch}', [\App\Http\Controllers\AlumniController::class, 'updateBatch'])->name('alumni.batch.update');
-    Route::delete('/alumni-batch/{batch}', [\App\Http\Controllers\AlumniController::class, 'destroyBatch'])->name('alumni.batch.destroy');
-    Route::post('/alumni-batch/{batch}/member', [\App\Http\Controllers\AlumniController::class, 'storeMember'])->name('alumni.member.store');
-    Route::delete('/alumni-member/{member}', [\App\Http\Controllers\AlumniController::class, 'destroyMember'])->name('alumni.member.destroy');
-    
-    Route::resource('faqs', \App\Http\Controllers\FaqController::class);
-
-    Route::resource('divisions', DivisionController::class);
-    Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
-    Route::get('/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
-});
-
-Route::middleware('auth')->group(function () {
+    // Profile Management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'verified'])->prefix('admin')->group(function () {
+    // Organization Profile
+    Route::get('/organization', [OrganizationProfileController::class, 'edit'])->name('organization.edit');
+    Route::patch('/organization', [OrganizationProfileController::class, 'update'])->name('organization.update');
+
+    // Leaders Management
+    Route::get('/leaders/bulk', [LeaderController::class, 'createBulk'])->name('leaders.bulk.create');
+    Route::post('/leaders/bulk', [LeaderController::class, 'storeBulk'])->name('leaders.bulk.store');
+    Route::get('/leaders/history', [LeaderController::class, 'history'])->name('leaders.history');
+    Route::patch('/leaders/{leader}/archive', [LeaderController::class, 'archive'])->name('leaders.archive');
+    Route::patch('/leaders/{leader}/restore', [LeaderController::class, 'restore'])->name('leaders.restore');
+    Route::resource('leaders', LeaderController::class);
+
+    // Alumni Management
+    Route::get('/alumni', [AlumniController::class, 'index'])->name('alumni.index');
+    Route::post('/alumni-batch', [AlumniController::class, 'storeBatch'])->name('alumni.batch.store');
+    Route::patch('/alumni-batch/{batch}', [AlumniController::class, 'updateBatch'])->name('alumni.batch.update');
+    Route::delete('/alumni-batch/{batch}', [AlumniController::class, 'destroyBatch'])->name('alumni.batch.destroy');
+    Route::post('/alumni-batch/{batch}/member', [AlumniController::class, 'storeMember'])->name('alumni.member.store');
+    Route::delete('/alumni-member/{member}', [AlumniController::class, 'destroyMember'])->name('alumni.member.destroy');
+
+    // FAQ Management
+    Route::resource('faqs', FaqController::class);
+
+    // Division Management
+    Route::resource('divisions', DivisionController::class);
+
+    // Registration Management
+    Route::get('/registrations', [RegistrationController::class, 'index'])->name('registrations.index');
+    Route::get('/registrations/export', [RegistrationController::class, 'export'])->name('registrations.export');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Utility Routes (Development/Deployment Helpers)
+|--------------------------------------------------------------------------
+| These routes should be removed or protected in production
+*/
+
 Route::get('/run-migrate', function () {
     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-    return "Migrasi Berhasil Jalur Browser! ✅";
+    return "[OK] Migrasi berhasil.";
 });
 
 Route::get('/run-optimize', function () {
     \Illuminate\Support\Facades\Artisan::call('optimize:clear');
-    return "Cache Berhasil Dibersihkan! 🚀";
+    return "[OK] Cache berhasil dibersihkan.";
 });
 
 Route::get('/run-link', function () {
     $targetPath = storage_path('app/public');
     $linkPath = public_path('storage');
+
     if (file_exists($linkPath)) {
-        return "Folder /storage sudah ada di hosting! ✅";
+        return "[OK] Folder /storage sudah ada di hosting.";
     }
+
     if (symlink($targetPath, $linkPath)) {
-        return "Storage Link Berhasil Dibuat! Foto sekarang muncul. ✅";
+        return "[OK] Storage link berhasil dibuat.";
     }
-    return "Gagal membuat link. Coba hapus folder 'storage' di 'public_html' lalu jalankan lagi. ❌";
+
+    return "[ERROR] Gagal membuat link. Coba hapus folder 'storage' di 'public_html' lalu jalankan lagi.";
 });
 
 Route::get('/run-fix-vite', function () {
     $hotFile = public_path('hot');
     if (file_exists($hotFile)) {
         unlink($hotFile);
-        return "File 'hot' berhasil dihapus! Sekarang CSS harusnya muncul. ✅";
+        return "[OK] File 'hot' berhasil dihapus.";
     }
-    return "File 'hot' tidak ditemukan. Sudah aman! ✅";
+    return "[INFO] File 'hot' tidak ditemukan. Sudah aman.";
 });
 
-Route::get('/run-env-fix', function() {
+Route::get('/run-env-fix', function () {
     $envPath = base_path('.env');
     if (file_exists($envPath)) {
         $content = file_get_contents($envPath);
@@ -125,12 +140,12 @@ Route::get('/run-env-fix', function() {
         $content = preg_replace('/APP_ENV=.*/', 'APP_ENV=production', $content);
         $content = preg_replace('/APP_DEBUG=.*/', 'APP_DEBUG=false', $content);
         file_put_contents($envPath, $content);
-        return ".env berhasil diupdate ke Production! ✅";
+        return "[OK] .env berhasil diupdate ke production.";
     }
-    return ".env tidak ditemukan! ❌";
+    return "[ERROR] .env tidak ditemukan.";
 });
 
-Route::get('/run-git-pull', function() {
+Route::get('/run-git-pull', function () {
     try {
         $output = shell_exec('git pull origin main 2>&1');
         return "<pre>HASIL GIT PULL:\n\n$output</pre>";
@@ -139,13 +154,13 @@ Route::get('/run-git-pull', function() {
     }
 });
 
-Route::get('/check-db', function() {
+Route::get('/check-db', function () {
     try {
-        $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES'); 
+        $tables = \Illuminate\Support\Facades\DB::select('SHOW TABLES');
         return response()->json($tables);
     } catch (\Exception $e) {
         return "ERROR DB: " . $e->getMessage();
     }
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

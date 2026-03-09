@@ -27,7 +27,7 @@
 
         @if(session('success'))
             <div class="p-4 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-2xl font-bold flex items-center gap-3">
-                <span>✅</span> {{ session('success') }}
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0"/></svg> {{ session('success') }}
             </div>
         @endif
 
@@ -87,7 +87,7 @@
             </div>
         @empty
             <div class="bg-white p-20 rounded-[40px] border border-slate-100 text-center border-dashed">
-                <div class="text-6xl mb-6">👥</div>
+                <div class="mb-6 flex justify-center text-slate-300"><svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a4 4 0 00-4-4h-1M9 20H4v-2a4 4 0 014-4h1m8-4a4 4 0 11-8 0 4 4 0 018 0zm-10 0a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
                 <h4 class="font-extrabold text-slate-800 text-xl">Belum ada pengurus terdaftar</h4>
                 <p class="text-slate-400 font-medium mt-2 mb-10">Mulai bangun struktur organisasi Anda sekarang.</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4">

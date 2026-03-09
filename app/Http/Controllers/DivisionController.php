@@ -2,58 +2,70 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDivisionRequest;
+use App\Http\Requests\UpdateDivisionRequest;
 use App\Models\Division;
-use Illuminate\Http\Request;
 
 class DivisionController extends Controller
 {
+    /**
+     * Display a listing of divisions.
+     */
     public function index()
     {
-        $divisions = Division::orderBy('order')->get();
+        $divisions = Division::ordered()->get();
         return view('admin.divisions.index', compact('divisions'));
     }
 
+    /**
+     * Show the form for creating a new division.
+     */
     public function create()
     {
         return view('admin.divisions.create');
     }
 
-    public function store(Request $request)
+    /**
+     * Store a newly created division.
+     */
+    public function store(StoreDivisionRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'order' => 'required|integer',
-        ]);
+        Division::create($request->validated());
 
-        Division::create($request->all());
-
-        return redirect()->route('divisions.index')->with('success', 'Divisi berhasil ditambahkan.');
+        return redirect()
+            ->route('divisions.index')
+            ->with('success', 'Divisi berhasil ditambahkan.');
     }
 
+    /**
+     * Show the form for editing a division.
+     */
     public function edit(Division $division)
     {
         return view('admin.divisions.edit', compact('division'));
     }
 
-    public function update(Request $request, Division $division)
+    /**
+     * Update the specified division.
+     */
+    public function update(UpdateDivisionRequest $request, Division $division)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'order' => 'required|integer',
-        ]);
+        $division->update($request->validated());
 
-        $division->update($request->all());
-
-        return redirect()->route('divisions.index')->with('success', 'Divisi berhasil diperbarui.');
+        return redirect()
+            ->route('divisions.index')
+            ->with('success', 'Divisi berhasil diperbarui.');
     }
 
+    /**
+     * Remove the specified division.
+     */
     public function destroy(Division $division)
     {
         $division->delete();
-        return redirect()->route('divisions.index')->with('success', 'Divisi berhasil dihapus.');
+
+        return redirect()
+            ->route('divisions.index')
+            ->with('success', 'Divisi berhasil dihapus.');
     }
 }

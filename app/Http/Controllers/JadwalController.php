@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
+use App\Http\Requests\StoreJadwalRequest;
+use App\Http\Requests\UpdateJadwalRequest;
 use App\Models\Jadwal;
+use App\Services\ImageUploadService;
 
 class JadwalController extends Controller
 {
+    public function __construct(
+        private ImageUploadService $imageService
+    ) {}
+
     /**
      * Display a listing of the resource.
      */
@@ -28,34 +33,22 @@ class JadwalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreJadwalRequest $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'division' => 'nullable|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required',
-            'location' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description' => 'nullable',
-        ]);
-
-        $imagePath = null;
+        $data = $request->validated();
+        
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/jadwal', 'public');
+            $data['image'] = $this->imageService->upload(
+                $request->file('image'),
+                'images/jadwal'
+            );
         }
 
-        Jadwal::create([
-            'title' => $request->title,
-            'division' => $request->division,
-            'date' => $request->date,
-            'time' => $request->time,
-            'location' => $request->location,
-            'image' => $imagePath,
-            'description' => $request->description,
-        ]);
+        Jadwal::create($data);
 
-        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil ditambahkan');
+        return redirect()
+            ->route('jadwal.index')
+            ->with('success', 'Jadwal berhasil ditambahkan');
     }
 
     /**
@@ -69,32 +62,23 @@ class JadwalController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Jadwal $jadwal)
+    public function update(UpdateJadwalRequest $request, Jadwal $jadwal)
     {
-        $request->validate([
-            'title' => 'required',
-            'division' => 'nullable|string|max:255',
-            'date' => 'required|date',
-            'time' => 'required',
-            'location' => 'required',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'description' => 'nullable',
-        ]);
+        $data = $request->validated();
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/jadwal', 'public');
-            $jadwal->image = $imagePath;
+            $data['image'] = $this->imageService->update(
+                $request->file('image'),
+                $jadwal->image,
+                'images/jadwal'
+            );
         }
 
-        $jadwal->title = $request->title;
-        $jadwal->division = $request->division;
-        $jadwal->date = $request->date;
-        $jadwal->time = $request->time;
-        $jadwal->location = $request->location;
-        $jadwal->description = $request->description;
-        $jadwal->save();
+        $jadwal->update($data);
 
-        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil diupdate');
+        return redirect()
+            ->route('jadwal.index')
+            ->with('success', 'Jadwal berhasil diupdate');
     }
 
     /**
@@ -102,7 +86,11 @@ class JadwalController extends Controller
      */
     public function destroy(Jadwal $jadwal)
     {
+        $this->imageService->delete($jadwal->image);
         $jadwal->delete();
-        return redirect()->route('jadwal.index')->with('success', 'Jadwal berhasil dihapus');
+
+        return redirect()
+            ->route('jadwal.index')
+            ->with('success', 'Jadwal berhasil dihapus');
     }
 }

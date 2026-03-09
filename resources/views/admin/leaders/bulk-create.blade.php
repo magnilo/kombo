@@ -4,10 +4,11 @@
     <div class="max-w-6xl mx-auto py-4">
         <div class="mb-6 flex justify-between items-center">
             <a href="{{ route('leaders.index') }}" class="text-slate-400 font-bold text-sm flex items-center gap-2 hover:text-indigo-600 transition">
-                ← Kembali ke List Pengurus
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                Kembali ke List Pengurus
             </a>
             <div class="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-xl text-xs font-bold">
-                💡 Masukkan banyak data sekaligus tanpa upload foto (Foto bisa diupdate nanti)
+                <span class="inline-flex items-center gap-1.5"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3a7 7 0 00-4 12.74V19a2 2 0 002 2h4a2 2 0 002-2v-3.26A7 7 0 0012 3zM9 21h6"/></svg>Masukkan banyak data sekaligus tanpa upload foto (Foto bisa diupdate nanti)</span>
             </div>
         </div>
 
