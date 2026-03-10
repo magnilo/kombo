@@ -40,7 +40,7 @@
             padding: 60px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             color: white;
             position: relative;
             overflow: hidden;
@@ -57,8 +57,7 @@
         }
         .login-sidebar h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
         .login-sidebar p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px; }
-        .logo-box { width: 80px; height: 80px; background: white; border-radius: 24px; padding: 15px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        .logo-img { width: 120px; height: 120px; margin-bottom: 30px; object-fit: contain; }
 
         .login-form-side { padding: 80px; display: flex; flex-direction: column; justify-content: center; }
         .login-form-side h3 { font-size: 1.75rem; font-weight: 800; color: #1e293b; margin-bottom: 8px; }
@@ -102,22 +101,61 @@
 
         @media (max-width: 900px) {
             .login-container { grid-template-columns: 1fr; height: auto; }
-            .login-sidebar { display: none; }
+            .login-sidebar { display: flex; padding: 30px; justify-content: flex-start; }
             .login-form-side { padding: 40px 30px; }
+        }
+
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #1d4ed8;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .back-button {
+                top: 15px;
+                right: 15px;
+                padding: 10px 14px;
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
+    <a href="/" class="back-button">
+        <span>←</span>
+        <span>Kembali ke Beranda</span>
+    </a>
     <div class="login-container">
         <!-- Sidebar -->
         <div class="login-sidebar">
-            <div class="logo-box">
-                <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="KOMBO Logo">
-            </div>
+            <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="KOMBO Logo" class="logo-img">
             <h2>Selamat Datang Kembali di Panel Admin</h2>
             <p>Kelola inspirasi, berita, dan program kerja KOMBO dengan mudah dari satu dashboard terintegrasi.</p>
-            <div style="margin-top: auto;">
-                <span style="font-size: 0.8rem; font-weight: 700; opacity: 0.7; text-transform: uppercase; letter-spacing: 2px;">Powered by KOMBO Tech Team</span>
+            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+                <span style="font-size: 0.75rem; font-weight: 700; opacity: 0.8; text-transform: uppercase; letter-spacing: 2px;">Powered by KOMBO Tech Team</span>
             </div>
         </div>
 
@@ -166,7 +204,6 @@
 
             <div style="margin-top: 40px; text-align: center;">
                 <p style="margin-bottom: 0; font-size: 0.85rem;">Belum punya akun? <a href="{{ route('register') }}" style="color: #3b82f6; text-decoration: none; font-weight: 800;">Daftar Anggota</a></p>
-                <a href="/" style="display: inline-block; margin-top: 15px; font-size: 0.8rem; font-weight: 700; color: #64748b; text-decoration: none;">← Kembali ke Beranda</a>
             </div>
         </div>
     </div>
