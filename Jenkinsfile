@@ -25,10 +25,10 @@ node {
         docker.image('agung3wi/alpine-rsync:1.1').inside('-u root') {
             sshagent(credentials: ['ssh-prod']) {
                 sh 'mkdir -p ~/.ssh'
-                sh 'ssh-keyscan -H 20.205.28.51 >> ~/.ssh/known_hosts'
+                sh 'ssh-keyscan -H "$PROD_HOST" >> ~/.ssh/known_hosts'
                 sh '''
                 rsync -rav --delete ./ \
-                quincy@20.205.28.51:/home/quincy/prod.kelasdevops.xyz/ \
+                quincy@"$PROD_HOST":/home/quincy/prod.kelasdevops.xyz/ \
                 --exclude=.env \
                 --exclude=storage \
                 --exclude=.git
