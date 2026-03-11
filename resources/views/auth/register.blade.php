@@ -13,6 +13,9 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     @endif
     <style>
+        html, body, * { -ms-overflow-style: none; scrollbar-width: none; }
+        html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background: #f8fafc;
@@ -21,50 +24,49 @@
             align-items: center;
             justify-content: center;
             min-height: 100vh;
-            padding: 40px 0;
+            overflow: hidden;
         }
-        .login-container {
+        .register-container {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
             width: 1000px;
             max-width: 95%;
-            min-height: 750px;
+            height: 680px;
             background: white;
             border-radius: 40px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
             overflow: hidden;
             animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .login-sidebar {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        .register-sidebar {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
             padding: 60px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             color: white;
             position: relative;
             overflow: hidden;
         }
-        .login-sidebar::before {
+        .register-sidebar::before {
             content: '';
             position: absolute;
-            bottom: -100px;
-            left: -100px;
+            top: -100px;
+            right: -100px;
             width: 300px;
             height: 300px;
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
         }
-        .login-sidebar h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
-        .login-sidebar p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px; }
-        .logo-box { width: 80px; height: 80px; background: white; border-radius: 24px; padding: 15px; margin-bottom: 30px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .logo-box img { width: 100%; height: 100%; object-fit: contain; }
+        .register-sidebar h2 { font-size: 2.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 20px; }
+        .register-sidebar p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px; }
+        .logo-img { width: 120px; height: 120px; margin-bottom: 30px; object-fit: contain; }
 
-        .login-form-side { padding: 60px 80px; display: flex; flex-direction: column; justify-content: center; }
-        .login-form-side h3 { font-size: 1.75rem; font-weight: 800; color: #1e293b; margin-bottom: 8px; }
-        .login-form-side p { color: #64748b; margin-bottom: 30px; font-weight: 500; }
+        .register-form-side { padding: 56px 80px; display: flex; flex-direction: column; justify-content: center; }
+        .register-form-side h3 { font-size: 1.75rem; font-weight: 800; color: #1e293b; margin-bottom: 8px; }
+        .register-form-side p { color: #64748b; margin-bottom: 28px; font-weight: 500; }
 
-        .form-group { margin-bottom: 20px; }
+        .form-group { margin-bottom: 16px; }
         .form-group label { display: block; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #64748b; margin-bottom: 8px; letter-spacing: 1px; }
         .form-input { 
             width: 100%; 
@@ -77,12 +79,12 @@
             color: #1e293b; 
             transition: all 0.3s;
         }
-        .form-input:focus { outline: none; border-color: #10b981; background: white; box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+        .form-input:focus { outline: none; border-color: #3b82f6; background: white; box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1); }
         
-        .btn-login {
+        .btn-register {
             width: 100%;
-            padding: 16px;
-            background: #10b981;
+            padding: 14px;
+            background: #3b82f6;
             color: white;
             border: none;
             border-radius: 16px;
@@ -90,44 +92,132 @@
             font-weight: 800;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
             margin-top: 10px;
         }
-        .btn-login:hover { background: #059669; transform: translateY(-2px); box-shadow: 0 15px 25px -5px rgba(16, 185, 129, 0.5); }
+        .btn-register:hover { background: #2563eb; transform: translateY(-2px); box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5); }
 
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(40px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
+        .back-button {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #3b82f6;
+            text-decoration: none;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            z-index: 1000;
+        }
+
+        .back-button:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: #1d4ed8;
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.15);
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 900px) {
-            .login-container { grid-template-columns: 1fr; height: auto; }
-            .login-sidebar { display: none; }
-            .login-form-side { padding: 40px 30px; }
+            .register-container { grid-template-columns: 1fr; height: auto; }
+            .register-sidebar { display: flex; padding: 30px; justify-content: flex-start; }
+            .register-form-side { padding: 40px 30px; }
+        }
+
+        @media (max-width: 600px) {
+            .back-button {
+                top: 15px;
+                left: 15px;
+                padding: 10px 14px;
+                font-size: 0.75rem;
+            }
+        }
+
+        .page-splash {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.18), transparent 45%), #f8fbff;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 99999;
+            transition: opacity 0.28s ease, visibility 0.28s ease;
+        }
+        .page-splash.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .splash-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .splash-logo {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+            animation: splash-pulse 1.15s ease-in-out infinite;
+            filter: drop-shadow(0 16px 30px rgba(30, 58, 138, 0.35));
+        }
+        .splash-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 7px;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            text-shadow: 0 8px 24px rgba(30, 58, 138, 0.2);
+        }
+        @keyframes splash-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
+        @media (max-width: 640px) {
+            .splash-logo { width: 170px; height: 170px; }
+            .splash-text { font-size: 0.95rem; letter-spacing: 5px; }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <!-- Sidebar -->
-        <div class="login-sidebar">
-            <div class="logo-box">
-                <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="KOMBO Logo">
-            </div>
-            <h2>Mulai Kontribusi Anda Hari Ini</h2>
-            <p>Daftarkan diri Anda sebagai bagian dari keluarga besar KOMBO dan ikut serta membangun Bondowoso lebih baik.</p>
-            <div style="margin-top: auto;">
-                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
-                    <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;"><svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg></div>
-                    <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;"><svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-                    <div style="width: 40px; height: 40px; background: rgba(255,255,255,0.2); border-radius: 10px; display: flex; align-items: center; justify-content: center;"><svg style="width: 20px; height: 20px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3l7 4v5c0 5-3.5 8-7 9-3.5-1-7-4-7-9V7l7-4z"/></svg></div>
-                </div>
-                <span style="font-size: 0.8rem; font-weight: 700; opacity: 0.7; text-transform: uppercase; letter-spacing: 2px;">Join the Movement</span>
+    <div id="pageSplash" class="page-splash" aria-hidden="true">
+        <div class="splash-inner">
+            <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="KOMBO" class="splash-logo">
+            <div class="splash-text">KOMBO</div>
+        </div>
+    </div>
+
+    <a href="/" class="back-button">
+        <span>&larr;</span>
+        <span>Kembali ke Beranda</span>
+    </a>
+    <div class="register-container">
+        <div class="register-sidebar">
+            <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="KOMBO Logo" class="logo-img">
+            <h2>Mulai Perjalanan Anda Bersama KOMBO</h2>
+            <p>Isi data pendaftaran dengan benar, lalu lanjutkan kolaborasi untuk membangun Bondowoso yang lebih progresif.</p>
+            <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.2);">
+                <span style="font-size: 0.75rem; font-weight: 700; opacity: 0.8; text-transform: uppercase; letter-spacing: 2px;">Powered by KOMBO Tech Team</span>
             </div>
         </div>
 
-        <!-- Form -->
-        <div class="login-form-side">
+        <div class="register-form-side">
             <h3>Daftar Anggota</h3>
             <p>Lengkapi data diri Anda untuk membuat akun baru.</p>
 
@@ -162,14 +252,48 @@
                     @error('password_confirmation') <p style="color: #ef4444; font-size: 0.75rem; margin-top: 6px; font-weight: 700;">{{ $message }}</p> @enderror
                 </div>
 
-                <button type="submit" class="btn-login">Daftar Sekarang</button>
+                <button type="submit" class="btn-register">Daftar Sekarang</button>
             </form>
 
-            <div style="margin-top: 40px; text-align: center;">
-                <p style="margin-bottom: 0; font-size: 0.85rem;">Sudah punya akun? <a href="{{ route('login') }}" style="color: #10b981; text-decoration: none; font-weight: 800;">Masuk di sini</a></p>
-                <a href="/" style="display: inline-block; margin-top: 15px; font-size: 0.8rem; font-weight: 700; color: #64748b; text-decoration: none;">← Kembali ke Beranda</a>
+            <div style="margin-top: 28px; text-align: center;">
+                <p style="margin-bottom: 0; font-size: 0.85rem;">Sudah punya akun? <a href="{{ route('login') }}" style="color: #3b82f6; text-decoration: none; font-weight: 800;">Masuk di sini</a></p>
             </div>
         </div>
     </div>
+
+    <script>
+        (function () {
+            var splash = document.getElementById('pageSplash');
+            if (!splash) return;
+
+            function showSplash() {
+                splash.classList.add('show');
+            }
+
+            function shouldHandleLink(link) {
+                if (!link || !link.href) return false;
+                if (link.target === '_blank' || link.hasAttribute('download')) return false;
+                if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return false;
+                var url = new URL(link.href, window.location.origin);
+                if (url.origin !== window.location.origin) return false;
+                if (url.pathname === window.location.pathname && url.search === window.location.search && (url.hash || '').length > 0) return false;
+                return true;
+            }
+
+            document.addEventListener('click', function (event) {
+                var link = event.target.closest('a[href]');
+                if (!shouldHandleLink(link)) return;
+                showSplash();
+            }, true);
+
+            document.addEventListener('submit', function () {
+                showSplash();
+            }, true);
+
+            window.addEventListener('pageshow', function () {
+                splash.classList.remove('show');
+            });
+        })();
+    </script>
 </body>
 </html>

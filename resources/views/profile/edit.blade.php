@@ -1,7 +1,9 @@
 <x-app-layout>
+    @section('admin_title', 'Profil Admin')
+
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Profile') }}
+            {{ __('Profil Admin') }}
         </h2>
     </x-slot>
 

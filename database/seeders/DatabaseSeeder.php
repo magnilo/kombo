@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
 
-        $this->call(OrganizationSeeder::class);
+        $this->call([
+            DivisionSeeder::class,
+            OrganizationSeeder::class,
+        ]);
     }
 }

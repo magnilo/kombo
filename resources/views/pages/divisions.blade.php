@@ -40,9 +40,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2rem;
         margin-bottom: 30px;
         transition: all 0.3s;
+    }
+    .div-icon svg {
+        width: 36px;
+        height: 36px;
+        stroke-width: 2;
     }
     .div-card:hover .div-icon {
         background: #4f46e5;
@@ -82,7 +86,7 @@
     @forelse($divisions as $div)
         <div class="div-card">
             <div class="div-icon">
-                {!! $div->icon ?? '💠' !!}
+                {!! $div->icon ?? '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>' !!}
             </div>
             <h3>{{ $div->name }}</h3>
             <p>{!! nl2br(e($div->description)) !!}</p>

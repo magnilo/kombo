@@ -49,6 +49,8 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
         body { background-color: var(--bg-light); color: var(--text-dark); line-height: 1.6; overflow-x: hidden; padding-top: 80px; transition: background-color 0.25s ease, color 0.25s ease; }
+        html, body, * { -ms-overflow-style: none; scrollbar-width: none; }
+        html::-webkit-scrollbar, body::-webkit-scrollbar, *::-webkit-scrollbar { width: 0; height: 0; display: none; }
         h1, h2, h3, h4, .logo-text { font-family: 'Outfit', sans-serif; }
         a { text-decoration: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
 
@@ -165,6 +167,51 @@
         .mobile-link.active { background: color-mix(in srgb, var(--primary) 14%, transparent); color: var(--primary); }
         [x-cloak] { display: none !important; }
 
+        .page-splash {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.18), transparent 45%), #f8fbff;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            z-index: 99999;
+            transition: opacity 0.28s ease, visibility 0.28s ease;
+        }
+        .page-splash.show {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        .splash-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .splash-logo {
+            width: 220px;
+            height: 220px;
+            object-fit: contain;
+            animation: splash-pulse 1.15s ease-in-out infinite;
+            filter: drop-shadow(0 16px 30px rgba(30, 58, 138, 0.35));
+        }
+        .splash-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 7px;
+            color: #1e3a8a;
+            text-transform: uppercase;
+            text-shadow: 0 8px 24px rgba(30, 58, 138, 0.2);
+        }
+        @keyframes splash-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+        }
+
         .auth-btns { display: flex; align-items: center; gap: 15px; }
         .login-link { color: var(--text-dark); font-weight: 700; font-size: 0.9rem; }
         .mobile-toggle { display: none; color: var(--text-dark); background: none; border: none; cursor: pointer; padding: 10px; border-radius: 12px; transition: all 0.2s; }
@@ -187,10 +234,21 @@
             .section-title h2 { font-size: 2rem; letter-spacing: -1px; }
             .mobile-menu { top: 90px; width: 92%; left: 4%; }
         }
+
+        @media (max-width: 640px) {
+            .splash-logo { width: 170px; height: 170px; }
+            .splash-text { font-size: 0.95rem; letter-spacing: 5px; }
+        }
     </style>
     @yield('styles')
 </head>
 <body>
+    <div id="pageSplash" class="page-splash" aria-hidden="true">
+        <div class="splash-inner">
+            <img src="{{ asset('assets/img/logo-kombo.png') }}" alt="KOMBO" class="splash-logo">
+            <div class="splash-text">KOMBO</div>
+        </div>
+    </div>
 
     <header x-data="{ mobileMenuOpen: false, darkMode: document.documentElement.getAttribute('data-theme') === 'dark', toggleTheme() { this.darkMode = !this.darkMode; const next = this.darkMode ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', next); localStorage.setItem('theme', next); } }">
         <a href="{{ url('/') }}" class="logo">
@@ -325,6 +383,41 @@
             <p>Made with 💙 by Bondowoso Students</p>
         </div>
     </footer>
+
+    <script>
+        (function () {
+            var splash = document.getElementById('pageSplash');
+            if (!splash) return;
+
+            function showSplash() {
+                splash.classList.add('show');
+            }
+
+            function shouldHandleLink(link) {
+                if (!link || !link.href) return false;
+                if (link.target === '_blank' || link.hasAttribute('download')) return false;
+                if (link.href.startsWith('mailto:') || link.href.startsWith('tel:')) return false;
+                var url = new URL(link.href, window.location.origin);
+                if (url.origin !== window.location.origin) return false;
+                if (url.pathname === window.location.pathname && url.search === window.location.search && (url.hash || '').length > 0) return false;
+                return true;
+            }
+
+            document.addEventListener('click', function (event) {
+                var link = event.target.closest('a[href]');
+                if (!shouldHandleLink(link)) return;
+                showSplash();
+            }, true);
+
+            document.addEventListener('submit', function () {
+                showSplash();
+            }, true);
+
+            window.addEventListener('pageshow', function () {
+                splash.classList.remove('show');
+            });
+        })();
+    </script>
 
     @yield('scripts')
 </body>
