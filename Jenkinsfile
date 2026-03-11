@@ -3,7 +3,13 @@ node {
     checkout scm
 
     stage("Build") {
-        docker.image('composer:2').inside('-u root') {
+        docker.image('php:8.2-cli').inside('-u root') {
+            sh 'apt-get update'
+            sh 'apt-get install -y git unzip libzip-dev libpng-dev libjpeg62-turbo-dev libfreetype6-dev'
+            sh 'docker-php-ext-configure gd --with-freetype --with-jpeg'
+            sh 'docker-php-ext-install gd zip'
+            sh 'curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer'
+            sh 'git config --global --add safe.directory /var/jenkins_home/workspace/laravel-dev'
             sh 'php -v'
             sh 'composer install'
         }
